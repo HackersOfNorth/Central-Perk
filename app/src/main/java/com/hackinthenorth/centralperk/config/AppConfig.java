@@ -12,5 +12,8 @@ public class AppConfig {
     // Local Server user registration url
     public static String LOCAL_URL_REGISTER = "http://192.168.65.1/centralperk/register.php";
 
+    // Local Server friend search url
+    public static String LOCAL_URL_SEARCHFRIEND = "http://192.168.65.1/centralperk/searchfriend.php";
+
 
 }
