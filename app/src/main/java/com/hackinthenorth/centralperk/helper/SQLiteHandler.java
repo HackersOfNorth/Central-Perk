@@ -11,11 +11,7 @@ import com.hackinthenorth.centralperk.entity.DBConstants;
 
 import java.util.HashMap;
 
-/**
- * This class includes all the SQLite Database connection and functions
- *
- * @author Deepankar
- */
+
 public class SQLiteHandler extends SQLiteOpenHelper {
 
     private static final String TAG = SQLiteHandler.class.getSimpleName();
@@ -56,7 +52,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         Log.d(TAG, "User details updated into sqlite: " + id);
     }
 
-    public void addUser(String uuid, String name, long phoneno, String email, double wallet) {
+    public void addUser(String uuid, String name, long phoneno, String email) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DBConstants.KEY_UUID, uuid);

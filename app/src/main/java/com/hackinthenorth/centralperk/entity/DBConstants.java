@@ -1,8 +1,6 @@
 package com.hackinthenorth.centralperk.entity;
 
-/**
- * Created by Deepankar on 12-01-2016.
- */
+
 public class DBConstants {
     // Database Version
     public static final int DATABASE_VERSION = 1;

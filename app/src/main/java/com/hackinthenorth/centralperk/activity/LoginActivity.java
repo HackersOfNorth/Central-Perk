@@ -24,6 +24,9 @@ import com.hackinthenorth.centralperk.connection.VolleySingleton;
 import com.hackinthenorth.centralperk.helper.SQLiteHandler;
 import com.hackinthenorth.centralperk.helper.SessionManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // SQLite database handler
         db = new SQLiteHandler(getApplicationContext());
-
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
         bLogin = (Button) findViewById(R.id.bLogin);
@@ -102,6 +104,43 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "Login Response: " + response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    //Log.e(TAG, jsonObject.toString());
+                    if (jsonObject.getString("error").equals("0")) {
+                        hideDialog();
+                        // User Login successful, now store the user in sqlite and shared preference
+                        session.setLogin(true);
+                        JSONObject user = jsonObject.getJSONObject("user");
+                        String uuid = user.getString("uuid");
+                        String name = user.getString("name");
+                        long phoneno = user.getLong("phoneno");
+                        String email = user.getString("email");
+                        db.addUser(uuid, name, phoneno, email);
+                        db.close();
+                        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(i);
+                        LoginActivity.this.finish();
+                    } else if (jsonObject.getString("error").equals("1")) {
+                        hideDialog();
+                        alertDialog.setTitle("Login Error");
+                        alertDialog.setMessage(jsonObject.getString("error_msg"));
+                        alertDialog.show();
+                    } else if (jsonObject.getString("error").equals("2")) {
+                        hideDialog();
+                        alertDialog.setTitle("Login Error");
+                        alertDialog.setMessage(jsonObject.getString("error_msg"));
+                        alertDialog.show();
+                    } else {
+                        hideDialog();
+                        alertDialog.setTitle("Login Error");
+                        alertDialog.setMessage(jsonObject.getString("error_msg"));
+                        alertDialog.show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override

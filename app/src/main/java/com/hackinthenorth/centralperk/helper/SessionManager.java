@@ -7,11 +7,7 @@ import android.util.Log;
 
 import com.hackinthenorth.centralperk.entity.Constants;
 
-/**
- * Class for controlling session of logged in users
- *
- * @author Deepankar
- */
+
 public class SessionManager {
 
     // Shared preferences file name

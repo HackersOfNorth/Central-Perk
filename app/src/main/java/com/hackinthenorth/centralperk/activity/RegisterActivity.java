@@ -21,6 +21,9 @@ import com.hackinthenorth.centralperk.R;
 import com.hackinthenorth.centralperk.config.AppConfig;
 import com.hackinthenorth.centralperk.connection.VolleySingleton;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,7 +92,30 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "Register Response: " + response);
-
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getString("error").equals("0")) {
+                        hideDialog();
+                        etName.setText("");
+                        etPhone.setText("");
+                        etEmail.setText("");
+                        etPassword.setText("");
+                        etCnfPassword.setText("");
+                        Toast.makeText(getApplicationContext(), jsonObject.getString("error_msg"), Toast.LENGTH_SHORT).show();
+                    } else if (jsonObject.getString("error").equals("1")) {
+                        hideDialog();
+                        alertDialog.setTitle("Register Error");
+                        alertDialog.setMessage(jsonObject.getString("error_msg"));
+                        alertDialog.show();
+                    } else if (jsonObject.getString("error").equals("2")) {
+                        hideDialog();
+                        alertDialog.setTitle("Register Error");
+                        alertDialog.setMessage(jsonObject.getString("error_msg"));
+                        alertDialog.show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
