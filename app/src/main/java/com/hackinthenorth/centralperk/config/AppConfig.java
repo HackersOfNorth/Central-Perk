@@ -13,5 +13,8 @@ public class AppConfig {
     // Local Server user Login url
     public static String LOCAL_URL_LOGIN = "http://192.168.65.1/centralperk/Login.php";
 
+    // Local Server user registration url
+    public static String LOCAL_URL_REGISTER = "http://192.168.65.1/centralperk/register.php";
+
 
 }
