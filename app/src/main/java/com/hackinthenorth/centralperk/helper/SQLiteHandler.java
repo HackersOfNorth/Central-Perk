@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.hackinthenorth.centralperk.entity.DBConstants;
+import com.hackinthenorth.centralperk.entity.Friend;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -28,6 +30,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DBConstants.CREATE_USER_TABLE);
+        db.execSQL(DBConstants.CREATE_FRIENDS_TABLE);
         Log.d(TAG, "Database tables created");
     }
 
@@ -35,6 +38,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + DBConstants.TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + DBConstants.TABLE_FRIENDS);
         // Create tables again
         onCreate(db);
     }
@@ -65,6 +69,19 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         Log.d(TAG, "New user inserted into sqlite: " + id);
     }
 
+    public void addFriend(long friendid, String name, String email) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBConstants.KEY_FREINDID, friendid);
+        values.put(DBConstants.KEY_NAME, name);
+        values.put(DBConstants.KEY_EMAIL, email);
+        // Inserting Row
+        long id = db.insert(DBConstants.TABLE_FRIENDS, null, values);
+        db.close(); // Closing database connection
+        Log.d(TAG, "New user inserted into sqlite: " + id);
+    }
+
+
     /**
      * Getting user data from database
      */
@@ -87,6 +104,28 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         // return user
         Log.d(TAG, "Fetching user from Sqlite: " + user.toString());
         return user;
+    }
+
+    /**
+     * Getting user friends from database
+     */
+    public ArrayList<Friend> getUserFriendDetails() {
+       ArrayList<Friend> friends = new ArrayList<>();
+        String selectQuery = "SELECT  * FROM " + DBConstants.TABLE_FRIENDS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        while (cursor.moveToNext()) {
+            Friend friend = new Friend();
+            friend.setFriendId(cursor.getString(0));
+            friend.setName(cursor.getString(1));
+            friend.setEmail(cursor.getString(2));
+            friends.add(friend);
+            Log.d("Cursor",friend.getName());
+        }
+        cursor.close();
+        db.close();
+        Log.d(TAG, "Fetching friends from Sqlite: " + friends.toString());
+        return friends;
     }
 
     /**
