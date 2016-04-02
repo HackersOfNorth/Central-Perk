@@ -2,6 +2,7 @@ package com.hackinthenorth.centralperk.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +12,47 @@ import com.hackinthenorth.centralperk.R;
 import com.hackinthenorth.centralperk.entity.Friend;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<Friend> friends;
+    private SparseBooleanArray selectedItems;
+
 
     public FriendsAdapter(Context context, ArrayList<Friend> friends) {
         this.friends = friends;
         this.context = context;
+    }
+
+    public void toggleSelection(int pos) {
+        if (selectedItems.get(pos, false)) {
+            selectedItems.delete(pos);
+        }
+        else {
+            selectedItems.put(pos, true);
+        }
+        notifyItemChanged(pos);
+    }
+
+    public void clearSelections() {
+        selectedItems.clear();
+        notifyDataSetChanged();
+    }
+
+    public int getSelectedItemCount() {
+        return selectedItems.size();
+    }
+
+    public List<Integer> getSelectedItems() {
+        List<Integer> items =
+                new ArrayList<Integer>(selectedItems.size());
+        for (int i = 0; i < selectedItems.size(); i++) {
+            items.add(selectedItems.keyAt(i));
+        }
+        return items;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

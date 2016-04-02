@@ -155,6 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Posting params to register url
                 Map<String, String> params = new HashMap<>();
                 params.put("tag", "Login");
+                params.put("device", "mobile");
                 params.put("username", username);
                 params.put("password", password);
                 return params;

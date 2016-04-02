@@ -47,6 +47,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hackinthenorth.centralperk.activity.HomeActivity" />
         </activity>
+        <activity
+            android:name=".activity.CreateHangoutActivity"
+            android:label="@string/title_activity_create_hangout"
+            android:parentActivityName=".activity.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hackinthenorth.centralperk.activity.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -30,7 +30,7 @@ public class HomeActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private TextView name;
-
+    int viewPagerPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +55,16 @@ public class HomeActivity extends AppCompatActivity {
         mTabLayout = (TabLayout) findViewById(R.id.tablayout);
         mTabLayout.setupWithViewPager(mViewPager);
         bFab = (FloatingActionButton) findViewById(R.id.fab);
+
         bFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, AddFriendsActivity.class));
+                viewPagerPosition = mViewPager.getCurrentItem();
+                if (viewPagerPosition == 0) {
+                    // TODO maps activity
+                }
+                else if(viewPagerPosition == 1)
+                    startActivity(new Intent(HomeActivity.this, AddFriendsActivity.class));
             }
         });
 
