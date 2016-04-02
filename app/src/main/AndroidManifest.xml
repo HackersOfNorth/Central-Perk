@@ -24,7 +24,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.RegisterActivity"
-            android:label="@string/title_activity_register" />
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".activity.LoginActivity"/>
         <activity
             android:name=".activity.HomeActivity"
             android:label="@string/title_activity_home"></activity>
