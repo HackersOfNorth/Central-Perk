@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 viewPagerPosition = mViewPager.getCurrentItem();
                 if (viewPagerPosition == 0) {
-                    // TODO maps activity
+                    startActivity(new Intent(HomeActivity.this,CreateHangoutActivity.class));
                 }
                 else if(viewPagerPosition == 1)
                     startActivity(new Intent(HomeActivity.this, AddFriendsActivity.class));
