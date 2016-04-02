@@ -28,6 +28,7 @@
             android:name=".activity.RegisterActivity"
             android:label="@string/title_activity_register"
             android:parentActivityName=".activity.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:value="com.hackinthenorth.centralperk.activity.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

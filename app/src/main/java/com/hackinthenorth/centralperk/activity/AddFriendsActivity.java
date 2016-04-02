@@ -1,5 +1,6 @@
 package com.hackinthenorth.centralperk.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.hackinthenorth.centralperk.R;
 import com.hackinthenorth.centralperk.config.AppConfig;
 import com.hackinthenorth.centralperk.connection.VolleySingleton;
+import com.hackinthenorth.centralperk.helper.SQLiteHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +36,8 @@ public class AddFriendsActivity extends AppCompatActivity {
     private Button bSearchFriends;
     private Button bAddFriends;
     private TextView tvSearchResults;
+    private SQLiteHandler db;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,10 @@ public class AddFriendsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarAddFriends);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Searching..");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
 
         bSearchFriends = (Button) findViewById(R.id.bSearchFriends);
         bAddFriends = (Button) findViewById(R.id.bAddFriend);
@@ -55,6 +63,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                 if (username.equals(""))
                     Toast.makeText(getApplicationContext(), "Empty username or password", Toast.LENGTH_SHORT).show();
                 else {
+                    showDialog();
                     search(username);
                 }
             }
@@ -64,12 +73,13 @@ public class AddFriendsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
             }
         });
     }
 
     private void search(final String username) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LOCAL_URL_SEARCHFRIEND, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.REMOTE_URL_SEARCHFRIEND, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -77,6 +87,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getString("error").equals("0")) {
+                        hideDialog();
                         JSONObject user = jsonObject.getJSONObject("user");
                         String name = user.getString("name");
                         long phoneno = user.getLong("phoneno");
@@ -87,6 +98,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                         tvSearchResults.setText(result);
                         bAddFriends.setVisibility(View.VISIBLE);
                     } else {
+                        hideDialog();
                         tvSearchResults.setText(jsonObject.getString("error_msg"));
                     }
                 } catch (JSONException e) {
@@ -97,8 +109,9 @@ public class AddFriendsActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                hideDialog();
                 Log.d(TAG, volleyError.toString());
-                Toast.makeText(getApplicationContext(), "Login Error : Could not connect to server. Please check active internet connection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Search Error : Could not connect to server. Please check active internet connection", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -114,6 +127,16 @@ public class AddFriendsActivity extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
 
+    }
+
+    private void showDialog() {
+        if (!progressDialog.isShowing())
+            progressDialog.show();
+    }
+
+    private void hideDialog() {
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 
 }

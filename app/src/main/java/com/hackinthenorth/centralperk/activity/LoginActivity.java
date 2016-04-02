@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(final String username, final String password) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LOCAL_URL_LOGIN, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.REMOTE_URL_LOGIN, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {

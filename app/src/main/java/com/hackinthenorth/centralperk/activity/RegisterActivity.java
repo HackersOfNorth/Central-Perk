@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void register(final String name, final String phoneno, final String email, final String password) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LOCAL_URL_REGISTER, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.REMOTE_URL_REGISTER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "Register Response: " + response);
