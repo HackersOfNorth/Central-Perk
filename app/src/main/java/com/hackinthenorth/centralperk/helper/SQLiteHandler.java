@@ -156,7 +156,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             friend.setName(cursor.getString(1));
             friend.setEmail(cursor.getString(2));
             friends.add(friend);
-            Log.d("Cursor",friend.getName());
+            Log.d("dCursor",friend.getName());
         }
         cursor.close();
         db.close();

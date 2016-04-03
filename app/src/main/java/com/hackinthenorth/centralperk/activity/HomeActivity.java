@@ -84,6 +84,7 @@ public class HomeActivity extends AppCompatActivity {
         name.setText(user.get(DBConstants.KEY_NAME));
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -91,6 +92,7 @@ public class HomeActivity extends AppCompatActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 updateNavDrawerDetails();
                 return true;
+
         }
         return super.onOptionsItemSelected(item);
     }

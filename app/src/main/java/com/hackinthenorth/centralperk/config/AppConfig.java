@@ -18,6 +18,11 @@ public class AppConfig {
     //Remote server user add url
     public static String REMOTE_URL_HANGOUTUPDATE = "http://immense-gorge-26332.herokuapp.com/hangoutupdate/";
 
+    //Remote server user add url
+    public static String REMOTE_URL_FETCHUPDATE = "http://immense-gorge-26332.herokuapp.com/fetchupdate/";
+
+
+
     // Local Server user Login url
     public static String LOCAL_URL_LOGIN = "http://192.168.65.1/centralperk/login.php";
 

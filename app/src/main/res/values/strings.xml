@@ -15,4 +15,7 @@
     <string name="search">Search</string>
     <string name="title_activity_create_hangout">CreateHangoutActivity</string>
     <string name="FriendsAdded">Friends in Hangout</string>
+    <string name="title_activity_hangout">Hangout</string>
+    <string name="title_activity_hangout_planning">HangoutPlanning</string>
+    <string name="MapActivity">MapActivity</string>
 </resources>

@@ -47,5 +47,13 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/bRefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:text="Refresh"
+            android:textSize="20sp" />
+
+
     </LinearLayout>
 </LinearLayout>
