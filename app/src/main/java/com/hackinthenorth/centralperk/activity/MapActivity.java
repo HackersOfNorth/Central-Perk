@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.hackinthenorth.centralperk.R;
+import com.hackinthenorth.centralperk.helper.MeetInMiddle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +36,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mGoogleMap;
     SupportMapFragment mapFrag;
     double lat,lon;
-    String item;
+    String item, gps;
     Marker[] ml;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -79,9 +80,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public StringBuilder sbMethod()
     {
 
+
         Bundle b = getIntent().getExtras();
-        lat = b.getDouble("lat");
-        lon = b.getDouble("lon");
+        gps = b.getString("gps");
+        String centroid = new MeetInMiddle().compute(gps).split (" ")[0];
+        lat = Double.parseDouble(centroid.split(",")[0]);
+        lon = Double.parseDouble(centroid.split(",")[1]);
+
+
         item = b.getString("item");
         StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         sb.append("location=" + lat + "," + lon);
@@ -195,7 +201,42 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mGoogleMap.clear();
 
             ml = new Marker[list.size()];
-            for (int i = 0; i < list.size(); i++) {
+            String locations[] = gps.split(" ");
+            for (String location : locations) {
+                double latdT = Double.parseDouble(location.split(",")[0]);
+                double longiT = Double.parseDouble(location.split(",")[1]);
+                MarkerOptions markerOptions = new MarkerOptions();
+
+
+
+                // Getting latitude of the place
+
+
+
+                // Getting name
+                String name = "friend";
+
+                Log.d("Map", "place: " + name);
+
+                // Getting vicinity
+              //  String vicinity = hmPlace.get("vicinity");
+
+                LatLng latLng = new LatLng(latdT, longiT);
+
+                // Setting the position for the marker
+                markerOptions.position(latLng);
+
+                markerOptions.title(name);
+
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+                // Placing a marker on the touched position
+               mGoogleMap.addMarker(markerOptions);
+
+
+
+            }
+            for (int i = 0; i < Math.min(5, list.size()); i++) {
 
                 // Creating a marker
                 MarkerOptions markerOptions = new MarkerOptions();
@@ -205,10 +246,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
                 // Getting latitude of the place
-                double lat = Double.parseDouble(hmPlace.get("lat"));
+                double latT = Double.parseDouble(hmPlace.get("lat"));
 
                 // Getting longitude of the place
-                double lng = Double.parseDouble(hmPlace.get("lng"));
+                double lngT = Double.parseDouble(hmPlace.get("lng"));
 
                 // Getting name
                 String name = hmPlace.get("place_name");
@@ -218,7 +259,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 // Getting vicinity
                 String vicinity = hmPlace.get("vicinity");
 
-                LatLng latLng = new LatLng(lat, lng);
+                LatLng latLng = new LatLng(latT, lngT);
 
                 // Setting the position for the marker
                 markerOptions.position(latLng);
@@ -231,17 +272,55 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Marker m = mGoogleMap.addMarker(markerOptions);
 
                 ml[i] = m;
-
+/*
                 CameraUpdate center=
                         CameraUpdateFactory.newLatLng(new LatLng(lat,
                                 lng));
-                CameraUpdate zoom=CameraUpdateFactory.zoomTo(14);
+                CameraUpdate zoom=CameraUpdateFactory.zoomTo(10);
 
                 mGoogleMap.moveCamera(center);
                 mGoogleMap.animateCamera(zoom);
+                */
 
             }
+            MarkerOptions markerOptions = new MarkerOptions();
+
+            // Getting a place from the places list
+
+
+            // Getting latitude of the place
+
+            // Getting longitude of the place
+
+            // Getting name
+            String name = "centroid";
+
+            Log.d("Map", "place: " + name);
+
+            // Getting vicinity
+
+            LatLng latLng = new LatLng(lat, lon);
+
+            // Setting the position for the marker
+            markerOptions.position(latLng);
+
+            markerOptions.title(name);
+
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+            // Placing a marker on the touched position
+            Marker m = mGoogleMap.addMarker(markerOptions);
+
+            CameraUpdate center=
+                    CameraUpdateFactory.newLatLng(new LatLng(lat,
+                            lon));
+            CameraUpdate zoom=CameraUpdateFactory.zoomTo(12);
+
+            mGoogleMap.moveCamera(center);
+            mGoogleMap.animateCamera(zoom);
+
         }
+
     }
     public class Place_JSON {
 

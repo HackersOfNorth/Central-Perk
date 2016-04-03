@@ -12,11 +12,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.hackinthenorth.centralperk.R;
-import com.hackinthenorth.centralperk.helper.MeetInMiddle;
 
 public class HangoutPlanning extends AppCompatActivity {
 
-    String val ;
+    String val, gps ;
     Double lat,lon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,24 +48,27 @@ public class HangoutPlanning extends AppCompatActivity {
         });
 
         Bundle b = getIntent().getExtras();
-        String gps = b.getString("gps");
-        String centroid = new MeetInMiddle().compute(gps).split (" ")[0];
+         gps = b.getString("gps");
+ /*       String centroid = new MeetInMiddle().compute(gps).split (" ")[0];
         lat = Double.parseDouble(centroid.split(",")[0]);
         lon = Double.parseDouble(centroid.split(",")[1]);
+        */
         Button bmap = (Button) findViewById(R.id.bMAP);
         bmap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent yourIntent = new Intent(HangoutPlanning.this, MapActivity.class);
-
+                //fake location
+                gps += " 25.4918,81.8657";
+                Log.d("gps", gps);
                 Bundle b = new Bundle();
-                b.putDouble("lat", lat);
-                b.putDouble("lon",lon);
+                b.putString("gps",gps);
                 b.putString("item",val);
                 yourIntent.putExtras(b);
                 startActivity(yourIntent);
             }
         });
+
     }
 
 }
