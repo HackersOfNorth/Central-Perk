@@ -14,4 +14,5 @@
     <string name="title_activity_add_friends">AddFriends</string>
     <string name="search">Search</string>
     <string name="title_activity_create_hangout">CreateHangoutActivity</string>
+    <string name="FriendsAdded">Friends in Hangout</string>
 </resources>

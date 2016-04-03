@@ -2,16 +2,16 @@ package com.hackinthenorth.centralperk.entity;
 
 
 public class Friend {
-    private String friendId;
+    private String friendPhone;
     private String name;
     private String email;
 
-    public String getFriendId() {
-        return friendId;
+    public String getFriendPhone() {
+        return friendPhone;
     }
 
-    public void setFriendId(String friendId) {
-        this.friendId = friendId;
+    public void setFriendPhone(String friendPhone) {
+        this.friendPhone = friendPhone;
     }
 
     public String getName() {

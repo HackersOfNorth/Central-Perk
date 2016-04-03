@@ -112,11 +112,10 @@ public class LoginActivity extends AppCompatActivity {
                         // User Login successful, now store the user in sqlite and shared preference
                         session.setLogin(true);
                         JSONObject user = jsonObject.getJSONObject("user");
-                        String uuid = user.getString("uuid");
                         String name = user.getString("name");
                         long phoneno = user.getLong("phoneno");
                         String email = user.getString("email");
-                        db.addUser(uuid, name, phoneno, email);
+                        db.addUser(name, phoneno, email);
                         db.close();
                         Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(i);
@@ -140,7 +139,6 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -175,5 +173,4 @@ public class LoginActivity extends AppCompatActivity {
         if (progressDialog.isShowing())
             progressDialog.dismiss();
     }
-
 }

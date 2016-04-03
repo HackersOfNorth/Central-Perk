@@ -4,16 +4,19 @@ package com.hackinthenorth.centralperk.config;
 public class AppConfig {
 
     // Remote Server user Login url
-    public static String REMOTE_URL_LOGIN = "http://teamdevopsmnnit.3eeweb.com/centralperk/login.php";
+    public static String REMOTE_URL_LOGIN = "http://immense-gorge-26332.herokuapp.com/login/";
 
     // Remote Server user Register url
-    public static String REMOTE_URL_REGISTER = "http://teamdevopsmnnit.3eeweb.com/centralperk/register.php";
+    public static String REMOTE_URL_REGISTER = "http://immense-gorge-26332.herokuapp.com/register/";
 
     // Remote Server user search url
-    public static String REMOTE_URL_SEARCHFRIEND = "http://teamdevopsmnnit.3eeweb.com/centralperk/searchfriend.php";
+    public static String REMOTE_URL_SEARCHFRIEND = "http://immense-gorge-26332.herokuapp.com/searchfriend/";
 
     //Remote server user add url
-    public static String REMOTE_URL_ADDFRIEND = "http://teamdevopsmnnit.3eeweb.com/centralperk/addfriend.php";
+    public static String REMOTE_URL_ADDFRIEND = "http://immense-gorge-26332.herokuapp.com/addfriend/";
+
+    //Remote server user add url
+    public static String REMOTE_URL_HANGOUTUPDATE = "http://immense-gorge-26332.herokuapp.com/hangoutupdate/";
 
     // Local Server user Login url
     public static String LOCAL_URL_LOGIN = "http://192.168.65.1/centralperk/login.php";

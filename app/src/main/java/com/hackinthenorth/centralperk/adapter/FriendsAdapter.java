@@ -7,53 +7,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hackinthenorth.centralperk.R;
 import com.hackinthenorth.centralperk.entity.Friend;
+import com.hackinthenorth.centralperk.helper.SQLiteHandler;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
 
-    private Context context;
+    private static Context context;
     private ArrayList<Friend> friends;
     private SparseBooleanArray selectedItems;
-
 
     public FriendsAdapter(Context context, ArrayList<Friend> friends) {
         this.friends = friends;
         this.context = context;
+
     }
 
-    public void toggleSelection(int pos) {
-        if (selectedItems.get(pos, false)) {
-            selectedItems.delete(pos);
-        }
-        else {
-            selectedItems.put(pos, true);
-        }
-        notifyItemChanged(pos);
-    }
-
-    public void clearSelections() {
-        selectedItems.clear();
-        notifyDataSetChanged();
-    }
-
-    public int getSelectedItemCount() {
-        return selectedItems.size();
-    }
-
-    public List<Integer> getSelectedItems() {
-        List<Integer> items =
-                new ArrayList<Integer>(selectedItems.size());
-        for (int i = 0; i < selectedItems.size(); i++) {
-            items.add(selectedItems.keyAt(i));
-        }
-        return items;
-    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -66,11 +40,17 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             tvName = (TextView) itemView.findViewById(R.id.tvFriendName);
             tvPhoneno = (TextView) itemView.findViewById(R.id.tvFriendPhoneno);
             tvEmail = (TextView) itemView.findViewById(R.id.tvFriendEmail);
-
+            final SQLiteHandler db = new SQLiteHandler(FriendsAdapter.context);
+            itemView.setClickable(true);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    //TODO item clicked
+                    String name = tvName.getText().toString();
+                    long phoneno = Long.parseLong(tvPhoneno.getText().toString());
+                    String email = tvEmail.getText().toString();
+                    db.addFriendInHangout(phoneno,name,email);
+                    db.close();
+                    Toast.makeText(context,"Contact Added!", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -89,7 +69,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.tvName.setText(friends.get(position).getName());
-        viewHolder.tvPhoneno.setText(friends.get(position).getFriendId());
+        viewHolder.tvPhoneno.setText(friends.get(position).getFriendPhone());
         viewHolder.tvEmail.setText(friends.get(position).getEmail());
     }
 

@@ -62,7 +62,6 @@ public class AddFriendsActivity extends AppCompatActivity {
         progressDialogAdd.setCanceledOnTouchOutside(false);
 
 
-
         bSearchFriends = (Button) findViewById(R.id.bSearchFriends);
         bAddFriends = (Button) findViewById(R.id.bAddFriend);
         etSearchFriend = (EditText) findViewById(R.id.etSearchUsername);
